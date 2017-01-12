@@ -7,8 +7,9 @@
           enctype="multipart/form-data"
           action="/register/source"
           method="post">
-      <input id = "file_submit" type="file" value = "choose" name="source" />
-      <input id = "btn_submit" type="submit" value="Upload Image" name="submit">
+      <input id="name_submit" type="TEXT" value="tester">
+      <input id="file_submit" type="file" value ="choose">
+      <input id="btn_submit" type="submit" value="Upload Image" name="submit">
     </form>
   </body>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
@@ -18,8 +19,9 @@
       $('#uploadForm').submit(function() {
         
         // this will change (tester -> userID)
-        $("#file_submit").attr("name","tester");
-
+        var name = $("#name_submit").val();
+        $("#file_submit").attr("name", name);
+        
         $(this).ajaxSubmit({
           error: function(xhr) {
   		      status('Error: ' + xhr.status);
@@ -28,6 +30,7 @@
   		      console.log(response);
           }
   	    });
+        
   	  return false;
       });    
     });
