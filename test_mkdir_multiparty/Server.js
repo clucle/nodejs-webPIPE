@@ -16,7 +16,7 @@ app.get('/',function(req,res){
 
 
 var newDestination = null;
-app.post('/register/source',multer({ dest: './uploads/',
+app.post('/register/source', multer({ dest: './uploads/',
   rename: function (fieldname, filename) {
     newDestination = fieldname;
     return filename;
@@ -45,7 +45,11 @@ app.post('/register/source',multer({ dest: './uploads/',
     console.log(file.fieldname + ' uploaded to  ' + file.path)
     newDestination = null;
   }
-}));
+
+}), function(req, res){
+  res.end("File uploaded");
+}
+);
 
 
 /*Run the server.*/
