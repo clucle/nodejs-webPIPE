@@ -1,3 +1,4 @@
 import sys
 
-print(sys.argv)
+getMsg = raw_input()
+print getMsg
