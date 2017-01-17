@@ -57,13 +57,15 @@ app.use(bodyParser.json());
 
 app.post('/execute/source', function(req, res) {
   //console.log(req.body.user.name)
+  var pathArray = [];
   var pathSource = __dirname + '/uploads/' + req.body.user.name;
   try {
     stat = fs.statSync(pathSource);
     fs.readdir(pathSource, function(err, items){
       for (var i=0; i<items.length; i++) {
         var file = pathSource + '/' + items[i];
-        console.log("Start: " + file);
+        pathArray.push(file);
+        //console.log("Start: " + file);
 
         /*
         fs.stat(file, function(err, stats) {
@@ -72,6 +74,7 @@ app.post('/execute/source', function(req, res) {
         })
         */
       }
+      res.send(pathArray);
     });
 
   } catch (err) {
