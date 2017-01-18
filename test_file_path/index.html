@@ -22,8 +22,7 @@
     <form id="selectForm"
           action="/execute/source"
           method="post">
-      <select id="selectBox">
-        <option id="0" value="value1">value1</option>
+      <select id="selectBox" name="user[source]">
       </select>
       <input id="btn_submit" type="submit" value="find" name="submit">
     </form>
@@ -35,12 +34,9 @@
   <script>
     $(document).ready(function() {
       $('#uploadForm').submit(function() {
-        
         // this will change (tester -> userID)
         var name = $("#name_submit").val();
         $("#file_submit").attr("name", name);
-        
-
         $(this).ajaxSubmit({
           error: function(xhr) {
             status('Error: ' + xhr.status);
@@ -60,11 +56,28 @@
           },
           success: function(response) {
             console.log(response);
+            document.getElementById("selectBox").innerHTML = "";
+            for(i=0; i<response.length; i++){
+              var opt = '<option>' + response[i] + '</option>';
+              document.getElementById("selectBox").innerHTML += opt;
+            }
+
           }
         });
         return false;
       });
 
+      $('#selectForm').submit(function() {
+        $(this).ajaxSubmit({
+          error: function(xhr) {
+            status('Error: ' + xhr.status);
+          },
+          success: function(response) {
+            console.log(response);
+          }
+        });
+        return false;
+      });
     });
 
 

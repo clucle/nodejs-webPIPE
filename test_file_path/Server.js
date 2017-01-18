@@ -63,7 +63,8 @@ app.post('/search/source', function(req, res) {
     stat = fs.statSync(pathSource);
     fs.readdir(pathSource, function(err, items){
       for (var i=0; i<items.length; i++) {
-        var file = pathSource + '/' + items[i];
+        //var file = pathSource + '/' + items[i];
+        var file = items[i];
         pathArray.push(file);
         //console.log("Start: " + file);
 
@@ -80,6 +81,11 @@ app.post('/search/source', function(req, res) {
   } catch (err) {
     console.log("path isn't exist");
   }
+});
+
+app.post('/execute/source', function(req, res) {
+  var source = req.body.user.source;
+  res.send(source);
 });
 
 
