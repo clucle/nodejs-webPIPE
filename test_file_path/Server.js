@@ -5,6 +5,22 @@ var app     = express();
 var fs      = require('fs');
 var bodyParser = require("body-parser")
 
+var PythonShell = require('python-shell');
+
+var options = {
+
+  mode: 'text',
+
+  pythonPath: '',
+
+  pythonOptions: ['-u'],
+
+  scriptPath: '',
+
+  args: ['value1', 'value2', 'value3']
+
+};
+
 
 /*Configure the multer.*/
 
@@ -14,6 +30,10 @@ app.get('/',function(req,res){
       res.sendfile("index.html");
 });
 
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+app.use(bodyParser.json());
 
 var newDestination = null;
 app.post('/register/source', multer({ dest: './uploads/',
@@ -50,31 +70,20 @@ app.post('/register/source', multer({ dest: './uploads/',
 }
 );
 
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
-app.use(bodyParser.json());
-
 app.post('/search/source', function(req, res) {
   //console.log(req.body.user.name)
   var pathArray = [];
   var pathSource = __dirname + '/uploads/' + req.body.user.name;
+
   try {
     stat = fs.statSync(pathSource);
     fs.readdir(pathSource, function(err, items){
-      for (var i=0; i<items.length; i++) {
-        //var file = pathSource + '/' + items[i];
-        var file = items[i];
-        pathArray.push(file);
-        //console.log("Start: " + file);
 
-        /*
-        fs.stat(file, function(err, stats) {
-          console.log(file);
-          console.log(stats["size"]);
-        })
-        */
+      for (var i=0; i<items.length; i++) {
+        var file = req.body.user.name + '\\' + items[i];
+        pathArray.push(file);
       }
+
       res.send(pathArray);
     });
 
@@ -85,7 +94,11 @@ app.post('/search/source', function(req, res) {
 
 app.post('/execute/source', function(req, res) {
   var source = req.body.user.source;
-  res.send(source);
+
+  PythonShell.run('uploads\\' + source, options, function (err, results) {
+    if (err) throw err;
+    res.send(results);
+  });
 });
 
 
