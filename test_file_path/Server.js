@@ -55,7 +55,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
-app.post('/execute/source', function(req, res) {
+app.post('/search/source', function(req, res) {
   //console.log(req.body.user.name)
   var pathArray = [];
   var pathSource = __dirname + '/uploads/' + req.body.user.name;

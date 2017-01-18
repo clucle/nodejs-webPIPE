@@ -12,10 +12,19 @@
       <input id="btn_submit" type="submit" value="upload" name="submit">
     </form>
 
-    <form id="executeForm"
-          action="/execute/source"
+    <form id="searchForm"
+          action="/search/source"
           method="post">
       <input id="name_submit" name="user[name]" type="text" value="tester">
+      <input id="btn_submit" type="submit" value="find" name="submit">
+    </form>
+
+    <form id="selectForm"
+          action="/execute/source"
+          method="post">
+      <select id="selectBox">
+        <option id="0" value="value1">value1</option>
+      </select>
       <input id="btn_submit" type="submit" value="find" name="submit">
     </form>
     
@@ -43,7 +52,7 @@
         return false;
       });    
     
-      $('#executeForm').submit(function() {
+      $('#searchForm').submit(function() {
         var name = $("#name_submit").val();
         $(this).ajaxSubmit({
           error: function(xhr) {
